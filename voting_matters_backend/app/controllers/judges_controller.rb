@@ -1,5 +1,5 @@
 class JudgesController < ApplicationController
-  before_action :set_judge, only: [:show, :update, :destroy]
+  before_action :set_judge, only: [:show]
 
   # GET /judges
   def index
@@ -13,31 +13,7 @@ class JudgesController < ApplicationController
     render json: @judge
   end
 
-  # POST /judges
-  def create
-    @judge = Judge.new(judge_params)
-
-    if @judge.save
-      render json: @judge, status: :created, location: @judge
-    else
-      render json: @judge.errors, status: :unprocessable_entity
-    end
-  end
-
-  # PATCH/PUT /judges/1
-  def update
-    if @judge.update(judge_params)
-      render json: @judge
-    else
-      render json: @judge.errors, status: :unprocessable_entity
-    end
-  end
-
-  # DELETE /judges/1
-  def destroy
-    @judge.destroy
-  end
-
+  
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_judge
