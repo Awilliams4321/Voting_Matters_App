@@ -40,13 +40,26 @@ function createCommentForm() {
     <form> 
         Note: <input type="text" id="note">
         <input type="submit" value="Submit Note">
+        <input type="hidden" id="judgeId" name="judgeId">
+
     </form>
     `
-    commentsForm.addEventListener("submit", commentSubmit)
+    commentsForm.addEventListener("submit", formSubmit)
 }
 
-function commentSubmit() {
+function formSubmit() {
     event.preventDefault();
     let note = document.getElementById("note").value
-    console.log(note)
+    let comment = {
+        note: note,
+    }
+    fetch(`${BASE_URL}comments`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+            "Accept": "application/json"
+        },
+        body: JSON.stringify(comment)
+    })
+    .then(resp => console.log(resp))
 }
