@@ -8,7 +8,13 @@ class Comment {
 
     renderComment() {
         let commentsDiv = document.getElementById("comments-container")
-        commentsDiv.innerHTML = (`<li>Comment: ${this.note}</li>`)
+        commentsDiv.innerHTML +=
+        `
+        <ul>
+        <h4> Comments </h4>
+        <li> Notes: ${this.note} </li>
+        </ul>
+        `
     }
 
   
