@@ -9,7 +9,12 @@ const BASE_URL = "http://localhost:3000/"
 function fetchJudges() {
     fetch(`${BASE_URL}judges`)
     .then(resp => resp.json())
-    .then(json => renderJudges(json))
+    .then(json => {
+        json.forEach(judge => {
+            const judgeObj = new Judge(judge)
+            judgeObj.renderJudge()
+        })
+    })  
 }
 
 function renderJudges(judges) {
@@ -49,10 +54,12 @@ function createCommentForm() {
 
 function formSubmit() {
     event.preventDefault();
-    let note = document.getElementById("note").value
+    let noteVal = document.getElementById("note").value
+    
     let comment = {
-        note: note,
+        note: noteVal
     }
+
     fetch(`${BASE_URL}comments`, {
         method: "POST",
         headers: {
