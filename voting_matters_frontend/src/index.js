@@ -6,67 +6,20 @@ document.addEventListener("DOMContentLoaded", () => {
 
 const BASE_URL = "http://localhost:3000/"
 
-function fetchJudges() {
-    fetch(`${BASE_URL}judges`)
-    .then(resp => resp.json())
-    .then(json => {
-        json.forEach(judge => {
-            const judgeObj = new Judge(judge)
-            judgeObj.renderJudge()
-        })
-    })  
-}
-
-function renderJudges(judges) {
-    const main = document.querySelector("main")
-    judges.forEach(judge => {
-        const judgesDiv = document.createElement("div")
-        judgesDiv.innerHTML = judge.name, judge.recommendation
-        main.appendChild(judgesDiv)
-    })
-}
-
-function fetchComments() {
-    fetch(`${BASE_URL}comments`) 
-    .then(resp => resp.json())
-    .then(comments=> {
-        for(const comment of comments) {
-            let c = new Comment(comment.id, comment.note, comment.judge_id)
-            c.renderComment(); 
-        }
-    })
-}
 
 function createCommentForm() {
     let commentsForm = document.getElementById("comments-form")
 
     commentsForm.innerHTML += 
     `
-    <form> 
-        Note: <input type="text" id="note">
-        <input type="submit" value="Submit Note">
-        <input type="hidden" id="judgeId" name="judgeId">
+        <p>Select a judge to leave a comment for:
+        <select (@judges, :name) >
+        </select></p>
+        <input type="hidden" id="judge_id">
 
-    </form>
+         Note: <input type="text" id="note">
+         <input type="submit" value="Submit Note">
     `
-    commentsForm.addEventListener("submit", formSubmit)
+    commentsForm.addEventListener("submit", addComment)
 }
 
-function formSubmit() {
-    event.preventDefault();
-    let noteVal = document.getElementById("note").value
-    
-    let comment = {
-        note: noteVal
-    }
-
-    fetch(`${BASE_URL}comments`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-            "Accept": "application/json"
-        },
-        body: JSON.stringify(comment)
-    })
-    .then(resp => console.log(resp))
-}
